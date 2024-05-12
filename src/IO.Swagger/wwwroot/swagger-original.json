@@ -1,0 +1,88 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Arithmetic API",
+    "description" : "API to perform arithmetic operations on two numbers",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:5000",
+    "description" : "Local server"
+  } ],
+  "paths" : {
+    "/calculate" : {
+      "post" : {
+        "summary" : "Perform an arithmetic operation",
+        "operationId" : "performArithmeticOperation",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CalculateBody"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Arithmetic operation result",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid input"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          }
+        },
+        "security" : [ {
+          "BearerAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "CalculateBody" : {
+        "type" : "object",
+        "properties" : {
+          "number1" : {
+            "type" : "number"
+          },
+          "number2" : {
+            "type" : "number"
+          },
+          "operation" : {
+            "type" : "string",
+            "enum" : [ "add", "subtract", "multiply", "divide" ]
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "result" : {
+            "type" : "number"
+          }
+        },
+        "example" : {
+          "result" : 0.8008281904610115
+        }
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}

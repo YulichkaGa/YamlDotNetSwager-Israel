@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Arithmetic API
+  description: API to perform arithmetic operations on two numbers
+
+servers:
+  - url: http://localhost:5000
+    description: Local server
+
+paths:
+  /calculate:
+    post:
+      summary: Perform an arithmetic operation
+      operationId: performArithmeticOperation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculateBody'
+      responses:
+        '200':
+          description: Arithmetic operation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: number
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+      security:
+        - BearerAuth: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CalculateBody:
+      type: object
+      properties:
+        number1:
+          type: number
+        number2:
+          type: number
+        operation:
+          type: string
+          enum:
+            - add
+            - subtract
+            - multiply
+            - divide
